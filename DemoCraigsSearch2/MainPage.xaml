@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:DemoCraigsSearch2" x:Class="DemoCraigsSearch2.MainPage">
-  <StackLayout>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:DemoCraigsSearch2" x:Class="DemoCraigsSearch2.MainPage" xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" ios:Page.UseSafeArea="true">
+  <StackLayout Orientation="Vertical">
     <!-- Place new controls here -->
-    <Label Text="Welcome to BikeSearch!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+    <Label Text="Welcome to BikeSearch!" HorizontalOptions="Center" VerticalOptions="Start" Margin="20" />
+    <ListView x:Name="bikesList" RowHeight="100">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ImageCell Height="100" ImageSource="{Binding Image}" Text="{Binding Text}" Detail="{Binding Description}" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
   </StackLayout>
 </ContentPage>
