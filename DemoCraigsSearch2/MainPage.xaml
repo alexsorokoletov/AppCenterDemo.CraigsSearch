@@ -3,10 +3,38 @@
   <StackLayout Orientation="Vertical">
     <!-- Place new controls here -->
     <Label Text="Welcome to BikeSearch!" HorizontalOptions="Center" VerticalOptions="Start" Margin="20" />
-    <ListView x:Name="bikesList" RowHeight="100">
+    <ListView x:Name="bikesList"
+       ItemsSource="{Binding Items}" IsRefreshing="{Binding IsBusy}" RefreshCommand="{Binding LoadItemsCommand}"   
+       ItemSelected="Handle_ItemSelected"
+       BackgroundColor="Transparent" RowHeight="220" SeparatorVisibility="None">      
       <ListView.ItemTemplate>
         <DataTemplate>
-          <ImageCell Height="100" ImageSource="{Binding Image}" Text="{Binding Text}" Detail="{Binding Description}" />
+          <ViewCell>
+            <Grid RowSpacing="5" ColumnSpacing="0" Margin="10,5">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Image Source="{Binding Image}" Aspect="AspectFill" Grid.RowSpan="2" />
+              <BoxView BackgroundColor="#57000000" Grid.Row="1" />
+              <Grid Margin="10" RowSpacing="10" ColumnSpacing="10" Grid.Row="1">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="25" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Text="{Binding Text}" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource TitleLabel}" LineBreakMode="TailTruncation" />
+                <Label Text="{Binding Description}" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource BodyLabel}" LineBreakMode="WordWrap" />
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.Column="2" Grid.Row="1" Spacing="0">
+                  <Label Text="{Binding Price, StringFormat='${0:N0}'}" Style="{StaticResource HandleLabel}" />
+                </StackLayout>
+              </Grid>
+            </Grid>
+          </ViewCell>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

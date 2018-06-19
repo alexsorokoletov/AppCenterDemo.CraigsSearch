@@ -9,7 +9,7 @@ namespace DemoCraigsSearch2
         public MainPage()
         {
             InitializeComponent();
-
+#if DEBUG
             this.bikesList.ItemsSource = new List<BikeItem>() {
                 new BikeItem
                 {
@@ -28,8 +28,13 @@ namespace DemoCraigsSearch2
                     Image = "https://loremflickr.com/cache/resized/953_41177494854_b70b678d4d_320_240_p.jpg"
                 }
             };
+#endif
         }
 
+        void Handle_Refreshing(object sender, System.EventArgs e)
+        {
+            LoadItemsAsync();
+        }
 
         protected override void OnAppearing()
         {
@@ -42,6 +47,18 @@ namespace DemoCraigsSearch2
             this.bikesList.IsRefreshing = true;
             this.bikesList.ItemsSource = await CraigsHelper.SearchAsync("bike");
             this.bikesList.IsRefreshing = false;
+            this.bikesList.EndRefresh();
+            Microsoft.AppCenter.Analytics.Analytics.TrackEvent("LoadItems");
+        }
+
+        void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem != null)
+            {
+                var item = (BikeItem)e.SelectedItem;
+                this.bikesList.SelectedItem = null;
+                Device.OpenUri(new System.Uri(item.Link));
+            }
         }
     }
 }
